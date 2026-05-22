@@ -8,6 +8,7 @@ import { detectIndentSize } from "./utils/indent.js";
 import { joinPointer } from "./utils/jsonPointer.js";
 import { safeSegment, taskFilePrefix } from "./utils/slug.js";
 import { stringifyWithKeyOrders } from "./utils/orderedStringify.js";
+import { renderWorkflowFsmMarkdown } from "./workflowFsmMermaid.js";
 
 function sortKeysByStubOrder(obj: JsonObject): string[] {
   return Object.keys(obj).sort((a, b) => {
@@ -335,6 +336,14 @@ export async function explodeProject(
         mergePointer: statePtr,
         stateKey,
       });
+    }
+
+    const fsmMd = renderWorkflowFsmMarkdown(root);
+    if (fsmMd !== null) {
+      const fsmRel = path.join("template", "states", "workflow-fsm.md");
+      const fsmFull = path.join(outputDir, fsmRel);
+      await mkdir(path.dirname(fsmFull), { recursive: true });
+      await writeFile(fsmFull, fsmMd, "utf8");
     }
   }
 

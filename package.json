@@ -2,6 +2,7 @@
   "name": "stubber-json",
   "version": "1.0.0",
   "description": "Explode / implode Stubber template JSON for file-based editing",
+  "license": "Unlicense",
   "type": "module",
   "bin": {
     "stubber-json": "./dist/cli.js"
